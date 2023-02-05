@@ -102,7 +102,40 @@
 		</div>
 	</header> -->
 	<div id="layout" style="height:100%;"></div>
-
+<div>
+    <h1>Google Identity Services Authorization Token model</h1>
+    <button onclick="getToken();">Get access token</button><br><br>
+    <button onclick="loadCalendar();">Load Calendar</button><br><br>
+    <button onclick="revokeToken();">Revoke token</button>
+</div>
+       <script>
+        var client;
+        var access_token;
+  
+        function initClient() {
+          client = google.accounts.oauth2.initTokenClient({
+            client_id: '647062115581-cgm4hhslu9f1odq2mb6mustdngabda8q.apps.googleusercontent.com',
+            scope: 'https://www.googleapis.com/auth/calendar.readonly \
+                    https://www.googleapis.com/auth/contacts.readonly',
+            callback: (tokenResponse) => {
+              access_token = tokenResponse.access_token;
+            },
+          });
+        }
+        function getToken() {
+          client.requestAccessToken();
+        }
+        function revokeToken() {
+          google.accounts.oauth2.revoke(access_token, () => {console.log('access token revoked')});
+        }
+        function loadCalendar() {
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', 'https://www.googleapis.com/calendar/v3/calendars/primary/events');
+          xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+          xhr.send();
+        }
+      </script>
+      <script src="https://accounts.google.com/gsi/client" onload="initClient()" async defer></script>
 
       <h1>GAPI with GIS async/await</h1>
       <button id="showEventsBtn" onclick="showEvents();">Show Calendar</button><br><br>
@@ -211,9 +244,6 @@
       <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoadOkay()" onerror="gapiLoadFail(event)"></script>
       <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoadOkay()" onerror="gisLoadFail(event)"></script>
     
-
-
-
 
 	<script>
         //AIzaSyD2Eq2iPLRxJottWhkTvL8-yQWJPZiUua4
