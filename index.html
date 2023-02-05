@@ -105,94 +105,28 @@
 
 
 
-  <h1>GAPI with GIS callbacks</h1>
-  <button id="showEventsBtn" onclick="showEvents();">Show Calendar</button><br><br>
-  <button id="revokeBtn" onclick="revokeToken();">Revoke access token</button>
-  <script>
-    let tokenClient;
-    let gapiInited;
-    let gisInited;
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="647062115581-cgm4hhslu9f1odq2mb6mustdngabda8q.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
-    document.getElementById("showEventsBtn").style.visibility="hidden";
-    document.getElementById("revokeBtn").style.visibility="hidden";
+    <div>Lorem ipsum</div>
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark">dfd</div>
+    <script>
+        function onSignIn(googleUser) {
+            // Useful data for your client-side scripts:
+            var profile = googleUser.getBasicProfile();
+            console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+            console.log('Full Name: ' + profile.getName());
+            console.log('Given Name: ' + profile.getGivenName());
+            console.log('Family Name: ' + profile.getFamilyName());
+            console.log("Image URL: " + profile.getImageUrl());
+            console.log("Email: " + profile.getEmail());
 
-    function checkBeforeStart() {
-       if (gapiInited && gisInited){
-          // Start only when both gapi and gis are initialized.
-          document.getElementById("showEventsBtn").style.visibility="visible";
-          document.getElementById("revokeBtn").style.visibility="visible";
-          showEvents();
-       }
-    }
-
-    function gapiInit() {
-      gapi.client.init({
-        // NOTE: OAuth2 'scope' and 'client_id' parameters have moved to initTokenClient().
-      })
-      .then(function() {  // Load the Calendar API discovery document.
-        gapi.client.load('https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest');
-        gapiInited = true;
-        checkBeforeStart();
-      });
-    }
-
-    function gapiLoad() {
-        gapi.load('client', gapiInit)
-    }
-
-    function gisInit() {
-     tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: '647062115581-cgm4hhslu9f1odq2mb6mustdngabda8q.apps.googleusercontent.com',
-                scope: 'https://www.googleapis.com/auth/calendar.readonly',
-                callback: '',  // defined at request time
-            });
-      gisInited = true;
-      checkBeforeStart();
-    }
-
-    function showEvents() {
-
-      tokenClient.callback = (resp) => {
-        if (resp.error !== undefined) {
-          throw(resp);
-        }
-        // GIS has automatically updated gapi.client with the newly issued access token.
-        console.log('gapi.client access token: ' + JSON.stringify(gapi.client.getToken()));
-
-        gapi.client.calendar.events.list({ 'calendarId': 'primary' })
-        .then(calendarAPIResponse => console.log(JSON.stringify(calendarAPIResponse)))
-        .catch(err => console.log(err));
-
-        document.getElementById("showEventsBtn").innerText = "Refresh Calendar";
-      }
-
-      // Conditionally ask users to select the Google Account they'd like to use,
-      // and explicitly obtain their consent to fetch their Calendar.
-      // NOTE: To request an access token a user gesture is necessary.
-      if (gapi.client.getToken() === null) {
-        // Prompt the user to select a Google Account and asked for consent to share their data
-        // when establishing a new session.
-        tokenClient.requestAccessToken({prompt: 'consent'});
-      } else {
-        // Skip display of account chooser and consent dialog for an existing session.
-        tokenClient.requestAccessToken({prompt: ''});
-      }
-    }
-
-    function revokeToken() {
-      let cred = gapi.client.getToken();
-      if (cred !== null) {
-        google.accounts.oauth2.revoke(cred.access_token, () => {console.log('Revoked: ' + cred.access_token)});
-        gapi.client.setToken('');
-        document.getElementById("showEventsBtn").innerText = "Show Calendar";
-      }
-    }
-  </script>
-
-
-  <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoad()"></script>
-  <script async defer src="https://accounts.google.com/gsi/client" onload="gisInit()"></script>
-
+            // The ID token you need to pass to your backend:
+            var id_token = googleUser.getAuthResponse().id_token;
+            console.log("ID Token: " + id_token);
+        };
+    </script>
 
 
 	<script>
