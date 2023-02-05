@@ -5,10 +5,12 @@ name: master
 on:
   push:
     branches: [ master ]  #master브런치에 push가 이뤄질때 작동
+    
+  workflow_dispatch:
   
 defaults:
   run:
-    working-directory: ./ #작업 디렉토르 설정
+    working-directory: ./ #작업 디렉토르 설정  
 
 jobs:
   build:
