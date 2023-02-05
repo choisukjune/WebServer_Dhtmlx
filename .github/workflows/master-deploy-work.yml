@@ -5,7 +5,8 @@ name: master
 on:
   push:
     branches: [ master ]  #master브런치에 push가 이뤄질때 작동
-    
+  pull_request:
+    branches: [ master ]  
   workflow_dispatch:
   
 defaults:
@@ -14,7 +15,7 @@ defaults:
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
         uses: actions/checkout@master
