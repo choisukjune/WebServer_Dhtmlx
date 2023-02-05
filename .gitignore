@@ -5,6 +5,7 @@ node_modules/
 
 # files
 .DS_Store
+**/.DS_Store
 *.result
 _cmd.exe
 package-lock.json
