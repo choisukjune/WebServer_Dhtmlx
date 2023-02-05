@@ -6,8 +6,7 @@
 	<title>SWCAMP</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-    <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="647062115581-cgm4hhslu9f1odq2mb6mustdngabda8q.apps.googleusercontent.com">
+    <meta name ="google-signin-client_id" content="647062115581-cgm4hhslu9f1odq2mb6mustdngabda8q.apps.googleusercontent.com">
 
 	<!-- end meta block -->
 	<script type="text/javascript" src="../common/js/suite.js?v=7.3.14"></script>
@@ -106,18 +105,14 @@
 
 
 
- 
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-   <div class="g-signin2" data-onsuccess="onSignIn">sdf</div>
-    <script>
-        function onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-          }
-    </script>
+          <script src="https://accounts.google.com/gsi/client" async defer></script>
+          <div id="g_id_onload"
+               data-client_id="647062115581-cgm4hhslu9f1odq2mb6mustdngabda8q.apps.googleusercontent.com"
+               data-ux_mode="redirect"
+               data-login_uri="https://swcamp-html.s3.ap-northeast-2.amazonaws.com/index.html">
+          </div>
+          <div class="g_id_signin" data-type="standard"></div>
+
 
 
 	<script>
