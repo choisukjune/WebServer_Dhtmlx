@@ -1,3 +1,5 @@
+name: main 
+
 on:
   push:
     branches: [ master ]  #master브런치에 push가 이뤄질때 작동
