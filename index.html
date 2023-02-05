@@ -1,26 +1,151 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 
 <head>
-	
-    <!-- meta block -->
-	<title>Initialization with config.data - DHTMLX Grid</title>
+	<!-- meta block -->
+	<title>Collapsable and resizable Layout - DHTMLX Layout</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+
+
 	<!-- end meta block -->
+	<script type="text/javascript" src="../common/js/suite.js?v=7.3.14"></script>
+	<link rel="stylesheet" href="../common/css/suite.css?v=7.3.14">
 
-	<script type="text/javascript" src="../common/js/grid.js?v=7.3.14"></script>
-	<link rel="stylesheet" href="../common/css/grid.css?v=7.3.14">	
-	<link rel="stylesheet" href="./common/css/index.css?v=7.3.14">
+	<link rel="stylesheet" href="../common/css/index.css?v=7.3.14">
+	<!-- custom sample head -->
+    <style>
+  	body {
+        margin: 0;
+    }
+	.sidebar_template_a.dhx_sidebar {
+		background-color: #30333d;
+	}
 
+	.sidebar_template_a .dhx_sidebar__item--separator {
+		background: rgba(255, 255, 255, 0.1);
+	}
+
+	.sidebar_template_a .dhx_sidebar-button {
+		color: #fff;
+	}
+
+	.sidebar_template_a .dhx_sidebar-button.dhx_sidebar-button--active,
+	.sidebar_template_a .dhx_sidebar-button:active {
+		color: #65a6e7;
+	}
+
+	.sidebar_template_a .dhx_sidebar-button.dhx_sidebar-button--active .dhx_sidebar-button__icon,
+	.sidebar_template_a .dhx_sidebar-button:active .dhx_sidebar-button__icon {
+		color: inherit;
+	}
+
+	.sidebar_template_a .dhx_sidebar-button__icon {
+		color: rgba(255, 255, 255, 0.7);
+	}
+
+	.sidebar_template_a--context-menu .dhx_menu {
+		background-color: #30333d;
+	}
+
+	.sidebar_template_a--context-menu .dhx_menu-button {
+		color: #fff;
+	}
+
+	.sidebar_template_a--context-menu .dhx_menu-button:hover:not(:disabled) {
+		background-color: rgba(0, 0, 0, 0.07);
+	}
+
+	.sidebar_template_a--context-menu .dhx_menu-button--active:not(:disabled),
+	.sidebar_template_a--context-menu .dhx_menu-button:active:not(:disabled),
+	.sidebar_template_a--context-menu .dhx_menu-button:focus:not(:disabled) {
+		color: #65a6e7;
+		background-color: rgba(0, 0, 0, 0.15);
+	}
+
+	.sidebar_template_a--context-menu .dhx_menu-button--active:not(:disabled) .dhx_menu-button__icon,
+	.sidebar_template_a--context-menu .dhx_menu-button:active:not(:disabled) .dhx_menu-button__icon,
+	.sidebar_template_a--context-menu .dhx_menu-button:focus:not(:disabled) .dhx_menu-button__icon {
+		color: inherit;
+	}
+
+	.sidebar_template_a--context-menu .dhx_menu-button__icon {
+		color: rgba(255, 255, 255, 0.7);
+	}
+
+	.sidebar_template_a__logo {
+		margin: 40px auto 20px;
+	}
+</style>
+<!-- end of code for sidebar_template_a -->
+
+<!-- icons -->
+<link rel="stylesheet" href="//cdn.materialdesignicons.com/4.0.96/css/materialdesignicons.min.css" />
 </head>
 
 <body>
+	<!-- <header class="dhx_sample-header">
+		<div class="dhx_sample-header__main">
+			<nav class="dhx_sample-header__breadcrumbs">
+				<ul class="dhx_sample-header-breadcrumbs">
+								<li class="dhx_sample-header-breadcrumbs__item">
+									<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Back to Suite samples</a>
+								</li>
+							</ul>
+			</nav>
+			<h1 class="dhx_sample-header__title">
+				<div class="dhx_sample-header__content">
+					Collapsable and resizable Layout
+				</div>
+			</h1>
+		</div>
+	</header> -->
+	<div id="layout" style="height:100%;"></div>
 
-    <section class="" style="height: 100%; width:100%;">
-		<div style="height: 100%; width: 100%" id="grid"></div>
-	</section>
 	<script>
+		window.layout = new dhx.Layout("layout", {
+			type: "line",
+			rows: [
+				// {
+				// 	id: "toolbar",
+				// 	header: "Header",
+				// 	collapsable: true,
+				// 	height: "120px",
+				// 	resizable: true
+				// },
+				{
+					resizable: true,
+					cols: [
+						{
+							id: "sidebar",
+							//header: "Sidebar",
+							//collapsable: true,
+							width: "200px",
+							resizable: true
+						},
+						{
+							id: "grid",
+							//header: "Content",
+							resizable: true
+						},
+						{
+							id: "rightbar",
+							header: "Aside",
+							collapsable: true,
+							width: "200px"
+						},
+					]
+				},
+				// {
+				// 	id: "footer",
+				// 	header: "Footer",
+				// 	collapsable: true,
+				// 	height: "120px"
+				// }
+			]
+		});
+        
+        
         /*
         "수업시작일"
         "학교"
@@ -92,7 +217,7 @@
         "강사비 지급(오프라인)"
         "강사비 지급(사후)"
 
-    */
+        */
         window.CONFIG = {};
 
         window.CONFIG.APIServer = {};
@@ -100,8 +225,8 @@
         window.CONFIG.APIServer.PORT = 8888;
 
         window.CONFIG.URLS = {};
-        window.CONFIG.URLS.getListAllCamp = "https://webhooks.mongodb-realm.com/api/client/v2.0/app/data-xiypp/service/campSheet/incoming_webhook/webhook0?secret=123qweasdzxc"//window.CONFIG.APIServer.HOST + ":" + window.CONFIG.APIServer.PORT + "/findAll";
-        window.CONFIG.URLS.updateData = window.CONFIG.APIServer.HOST + ":" + window.CONFIG.APIServer.PORT + "/update";
+        window.CONFIG.URLS.getListAllCamp = "https://swcamp-api-server.run.goorm.app" + "/findAll";
+        window.CONFIG.URLS.updateData = "https://swcamp-api-server.run.goorm.app" + "/update";
 
 
         var reqPost = function( url, data, cbFcuntion ){
@@ -136,21 +261,9 @@
             
             xhr.open('GET', url );
             
-            xhr.setRequestHeader("apiKey", "J5q3a5GgOO9P883SDuarc7NhucyuoK8d30bnzILpq9xsXjXTydO8ICJ3RWblTGYO");
-            xhr.setRequestHeader("Content-Type", "application/json");
+            // xhr.setRequestHeader("Content-Type", "application/json");
 
-            
             xhr.send();
-
-/*
-            curl -X GET \
-   -H 'apiKey: J5q3a5GgOO9P883SDuarc7NhucyuoK8d30bnzILpq9xsXjXTydO8ICJ3RWblTGYO' \
-   -H 'Content-Type: application/json' \
-   https://data.mongodb-api.com/app/data-xiypp/endpoint/camp
-
-            xhr.setRequestHeader("apiKey", "J5q3a5GgOO9P883SDuarc7NhucyuoK8d30bnzILpq9xsXjXTydO8ICJ3RWblTGYO");
-            xhr.setRequestHeader("Content-Type", "application/json");
-*/
         }
 
         var getListAllCamp = function( url ){
@@ -164,7 +277,7 @@
                     if( isNaN(d) ) d = ""
                     io.A = d;
                 }		
-
+                
                 var grid = new dhx.Grid("grid", 
                     {   columns: [
                         { width: 150, id: "_id", header: [{ text: "cd" }] },
@@ -263,9 +376,10 @@
                 grid.events.on("afterEditEnd", function(value,row,column){
                     
                     var reqData = {};
-                        reqData[ "_id" ] = row._id
-                        reqData[ column.id ] = value
-                        
+                        reqData[ "doc_id" ] = row._id
+                        reqData[ "data" ] = {};
+                        reqData[ "data" ][ column.id ] = value;
+                        console.log( reqData )
                     reqPost(window.CONFIG.URLS.updateData, reqData, function(r){
                         console.log("update - OK!")
                     } )
@@ -276,10 +390,183 @@
         }
 
         window.addEventListener('DOMContentLoaded', function(){
-            getListAllCamp( window.CONFIG.URLS.getListAllCamp )
+            
+
+            var url = window.CONFIG.URLS.getListAllCamp;
+            reqGet( url, function(d){
+
+                var dataset = JSON.parse(d)
+                var i = 0,iLen = dataset.length,io;
+                for(;i<iLen;++i){
+                    io = dataset[ i ];
+                    var d = new Date( io.A )
+                    if( isNaN(d) ) d = ""
+                    io.A = d;
+                }		
+
+                window.grid = new dhx.Grid(null, 
+                    {   
+                        css: "dhx_demo-grid",
+                        columns: [
+                        { hidden: true, width: 150, id: "_id", header: [{ text: "cd" }] },
+                        { width: 150, id: "A", header: [{ text: "수업시작일" }], type: "date", format: "%Y-%m-%d " },
+                        { width: 150, id: "B", header: [{ text: "학교" }, { content: "comboFilter", filterConfig: { placeholder: "Type something", virtual: true }, }] },
+                        { width: 150, id: "C", header: [{ text: "지역" }, { content: "comboFilter", filterConfig: { placeholder: "Type something", virtual: true }, }] },
+                        { width: 150, id: "D", header: [{ text: "신청자" }, { content: "comboFilter", filterConfig: { placeholder: "Type something", virtual: true }, }] },
+                        { width: 150, id: "E", header: [{ text: "연락처" }] },
+                        { width: 150, id: "F", header: [{ text: "이메일" }] },
+                        { width: 150, id: "G", header: [{ text: "1일차" }] },
+                        { width: 150, id: "H", header: [{ text: "2일차" }] },
+                        { width: 150, id: "I", header: [{ text: "3일차 - 구름출강강사X 학교 교사가 진행하시는 경우에만 해당함" }] },
+                        { width: 150, id: "J", header: [{ text: "커리큘럼" }] },
+                        { width: 150, id: "K", header: [{ text: "사전 출석부 링크" }],htmlEnable: true,
+                            template: function (text, row, col) {
+                                if( text.indexOf(",") != -1 )
+                                {
+                                    text.replace(",","</br>");
+                                    
+                                }
+                                return text.replace(" ","</br>");
+                            }
+                        },
+                        
+                        { width: 150, id: "L", header: [{ text: "신청인원" }] },
+                        { width: 150, id: "M", header: [{ text: "참여인원" }] },
+                        { width: 150, id: "N", header: [{ text: "간식 주소지" }] },
+                        { width: 150, id: "O", header: [{ text: "주교사" }] },
+                        { width: 150, id: "P", header: [{ text: "보조교사" }] },
+                        { width: 150, id: "Q", header: [{ text: "주강사 매칭" }] },
+                        { width: 150, id: "R", header: [{ text: "보조강사 매칭" }] },
+                        { width: 150, id: "S", header: [{ text: "채널링크" }] },
+                        { width: 150, id: "T", header: [{ text: "마켓확인" }] },
+                        { width: 150, id: "U", header: [{ text: "확정메일" }] },
+                        { width: 150, id: "V", header: [{ text: "문자" }] },
+                        { width: 150, id: "W", header: [{ text: "강사 강의자 지정" }] },
+                        { width: 150, id: "X", header: [{ text: "" }] },
+                        { width: 150, id: "Y", header: [{ text: "" }] },
+                        { width: 150, id: "Z", header: [{ text: "보험" }] },
+                        { width: 150, id: "AA", header: [{ text: "간식" }] },
+                        { width: 150, id: "AB", header: [{ text: "안전요원" }] },
+                        { width: 150, id: "AC", header: [{ text: "주강사 강사료 지급" }] },
+                        { width: 150, id: "AD", header: [{ text: "보조강사 강사료 지급" }] },
+                        { width: 150, id: "AE", header: [{ text: "굿즈 발송여부" }] },
+                        { width: 150, id: "AF", header: [{ text: "수료증 발송여부" }] },
+                        { width: 150, id: "AG", header: [{ text: "에듀_진원" }] },
+                        { width: 150, id: "AH", header: [{ text: "교사 사전 메일 발송(2주전)" }] },
+                        { width: 150, id: "AI", header: [{ text: "강사 사전메일 발송(2주전)" }] },
+                        { width: 150, id: "AJ", header: [{ text: "D -10 날짜" }] },
+                        { width: 150, id: "AK", header: [{ text: "사전환경조사 (D-10)" }] },
+                        { width: 150, id: "AL", header: [{ text: "에듀_태현" }] },
+                        { width: 150, id: "AM", header: [{ text: "사전 출석부" }] },
+                        { width: 150, id: "AN", header: [{ text: "학생용 사전 설문지 (1일차 당일)" }] },
+                        { width: 150, id: "AO", header: [{ text: "학생용 온라인 출석부 1일차" }] },
+                        { width: 150, id: "AP", header: [{ text: "학생용 온라인 출석부 2일차" }] },
+                        { width: 150, id: "AQ", header: [{ text: "체크리스트(1일차 당일)" }] },
+                        { width: 150, id: "AR", header: [{ text: "체크리스트(2일차 당일)" }] },
+                        { width: 150, id: "AS", header: [{ text: "체크리스트 PDF" }] },
+                        { width: 150, id: "AT", header: [{ text: "수업사진(1일차 당일)" }] },
+                        { width: 150, id: "AU", header: [{ text: "수업사진 (2일차 당일)" }] },
+                        { width: 150, id: "AV", header: [{ text: "학습 결과물 (수업 종료일)" }] },
+                        { width: 150, id: "AW", header: [{ text: "학습 성취도 (수업 종료일)" }] },
+                        { width: 150, id: "AX", header: [{ text: "CSV (수업 종료일)" }] },
+                        { width: 150, id: "AY", header: [{ text: "학생용 만족도 조사" }] },
+                        { width: 150, id: "AZ", header: [{ text: "교사용 사후 설문지" }] },
+                        { width: 150, id: "BA", header: [{ text: "에듀_소이" }] },
+                        { width: 150, id: "BB", header: [{ text: "안전관리" }] },
+                        { width: 150, id: "BC", header: [{ text: "서약서" }] },
+                        { width: 150, id: "BD", header: [{ text: "체크리스트(1일차)" }] },
+                        { width: 150, id: "BE", header: [{ text: "체크리스트(2일차)" }] },
+                        { width: 150, id: "BF", header: [{ text: "사진 촬영 및 업로드" }] },
+                        { width: 150, id: "BG", header: [{ text: "프로그램 사전 계획표" }] },
+                        { width: 150, id: "BH", header: [{ text: "결과보고서 작성 (1일차)" }] },
+                        { width: 150, id: "BI", header: [{ text: "결과보고서 작성 (2일차)" }] },
+                        { width: 150, id: "BJ", header: [{ text: "프로그램참여자 리스트" }] },
+                        { width: 150, id: "BK", header: [{ text: "결과보고서 및 사후활동" }] },
+                        { width: 150, id: "BL", header: [{ text: "우수학생 선발" }] },
+                        { width: 150, id: "BM", header: [{ text: "캠프 자체 평가(1~5점)" }] },
+                        { width: 150, id: "BN", header: [{ text: "사후활동 여부" }] },
+                        { width: 150, id: "BO", header: [{ text: "안전관리 운영 후 체크리스트" }] },
+                        { width: 150, id: "BP", header: [{ text: "강사비 지급(오프라인)" }] },
+                        { width: 150, id: "BQ", header: [{ text: "강사비 지급(사후)" }] },
+
+                        ],
+                        data: dataset,
+                        autoWidth: true,
+                        adjust: true,
+                        autoHeight: true,
+                        //rowHeight: 20,
+                        editable: true,
+                        resizable: true,
+                        leftSplit: 3,
+                        height: "100%",
+                    }
+                );
+                
+                window.grid.events.on("afterEditEnd", function(value,row,column){
+                    
+                    var reqData = {};
+                        reqData[ "doc_id" ] = row._id
+                        reqData[ "data" ] = {};
+                        reqData[ "data" ][ column.id ] = value;
+                        console.log( reqData )
+                    reqPost(window.CONFIG.URLS.updateData, reqData, function(r){
+                        console.log("update - OK!")
+                    } )
+                });
+                  
+                window.layout.getCell("grid").attach(grid);
+
+                
+                var sidebarData = [
+                    {
+                        id: "logo",
+                        type: "customHTML",
+                        css: "sidebar_template_a__logo",
+                        html: "<img src='https://snippet.dhtmlx.com/codebase/data/common/img/01/logo_exam_system.svg'>" //todo заменить путь к лого
+                    },
+                    {
+                        id: "Persons",
+                        value: "Persons",
+                        icon: "mdi mdi-star-circle"
+                    },
+                    {
+                        id: "results",
+                        value: "Results",
+                        icon: "mdi mdi-medal"
+                    },
+                    {
+                        id: "certificates",
+                        value: "Certificates",
+                        icon: "mdi mdi-stamper"
+                    },
+                    {
+                        id: "reports",
+                        value: "Reports",
+                        icon: "mdi mdi-chart-areaspline"
+                    },
+                    {
+                        id: "settings",
+                        value: "Settings",
+                        icon: "mdi mdi-tune"
+                    },
+                    {
+                        type: "spacer"
+                    }
+                ];
+                // initializing Sidebar for navigation
+                window.sidebar = new dhx.Sidebar(null, {
+                    css: "sidebar_template_a"
+                });
+                // loading data into Sidebar
+                window.sidebar.data.parse(sidebarData);
+                window.layout.getCell("sidebar").attach(window.sidebar );
+            })
+            //getListAllCamp( window.CONFIG.URLS.getListAllCamp )
+           
         })
         
-        		
+
+        
 	</script>
 </body>
 
