@@ -10,6 +10,8 @@
 
 	<!-- end meta block -->
 	<script type="text/javascript" src="../common/js/suite.js?v=7.3.14"></script>
+    <script src="https://accounts.google.com/gsi/client" onload="initClient()" async defer></script>
+
 	<link rel="stylesheet" href="../common/css/suite.css?v=7.3.14">
 
 	<link rel="stylesheet" href="../common/css/index.css?v=7.3.14">
@@ -101,53 +103,39 @@
 		</div>
 	</header> -->
 	<div id="layout" style="height:100%;"></div>
-    <ul>
-        <li id="GgCustomLogin">
-         <a href="javascript:void(0)">
-          <span>Login with Google</span>
-         </a>
-        </li>
-       </ul>
+<div>
+    <h1>Google Identity Services Authorization Token model</h1>
+    <button onclick="getToken();">Get access token</button><br><br>
+    <button onclick="loadCalendar();">Load Calendar</button><br><br>
+    <button onclick="revokeToken();">Revoke token</button>
+</div>
        <script>
-       
-       //처음 실행하는 함수
-       function init() {
-           gapi.load('auth2', function() {
-               gapi.auth2.init();
-               options = new gapi.auth2.SigninOptionsBuilder();
-               options.setPrompt('select_account');
-               // 추가는 Oauth 승인 권한 추가 후 띄어쓰기 기준으로 추가
-               options.setScope('email profile openid https://www.googleapis.com/auth/user.birthday.read');
-               // 인스턴스의 함수 호출 - element에 로그인 기능 추가
-               // GgCustomLogin은 li태그안에 있는 ID, 위에 설정한 options와 아래 성공,실패시 실행하는 함수들
-               gapi.auth2.getAuthInstance().attachClickHandler('GgCustomLogin', options, onSignIn, onSignInFailure);
-           })
-       }
-       
-       function onSignIn(googleUser) {
-           var access_token = googleUser.getAuthResponse().access_token
-           $.ajax({
-               // people api를 이용하여 프로필 및 생년월일에 대한 선택동의후 가져온다.
-               url: 'https://people.googleapis.com/v1/people/me'
-               // key에 자신의 API 키를 넣습니다.
-               , data: {personFields:'birthdays', key:'AIzaSyD2Eq2iPLRxJottWhkTvL8-yQWJPZiUua4', 'access_token': access_token}
-               , method:'GET'
-           })
-           .done(function(e){
-               //프로필을 가져온다.
-               var profile = googleUser.getBasicProfile();
-               console.log(profile)
-           })
-           .fail(function(e){
-               console.log(e);
-           })
-       }
-       function onSignInFailure(t){		
-           console.log(t);
-       }
-       </script>
-       //구글 api 사용을 위한 스크립트
-       <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+        var client;
+        var access_token;
+  
+        function initClient() {
+          client = google.accounts.oauth2.initTokenClient({
+            client_id: 'YOUR_CLIENT_ID',
+            scope: 'https://www.googleapis.com/auth/calendar.readonly \
+                    https://www.googleapis.com/auth/contacts.readonly',
+            callback: (tokenResponse) => {
+              access_token = tokenResponse.access_token;
+            },
+          });
+        }
+        function getToken() {
+          client.requestAccessToken();
+        }
+        function revokeToken() {
+          google.accounts.oauth2.revoke(access_token, () => {console.log('access token revoked')});
+        }
+        function loadCalendar() {
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', 'https://www.googleapis.com/calendar/v3/calendars/primary/events');
+          xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+          xhr.send();
+        }
+      </script>
        
 	<script>
         //AIzaSyD2Eq2iPLRxJottWhkTvL8-yQWJPZiUua4
