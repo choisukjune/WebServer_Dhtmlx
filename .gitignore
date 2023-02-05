@@ -4,7 +4,7 @@ Log/
 node_modules/
 
 # files
-
+.Ds_Store
 *.result
 _cmd.exe
 package-lock.json
