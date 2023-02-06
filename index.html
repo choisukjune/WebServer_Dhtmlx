@@ -441,16 +441,13 @@
                     if( isNaN(d) ) d = ""
                     io.A = d;
                 }		
-
-                window.grid = new dhx.Grid(null, 
-                    {   
-                        css: "dhx_demo-grid",
-                        columns: [
-                        { hidden: true, width: 150, id: "_id", header: [{ text: "cd" }] },
+                    //{ content: "comboFilter", filterConfig: { placeholder: "Type something", virtual: true }, }
+                    var headers =  [
+                        { width: 150, id: "_id", header: [{ text: "cd" }] },
                         { width: 150, id: "A", header: [{ text: "수업시작일" }], type: "date", format: "%Y-%m-%d " },
-                        { width: 150, id: "B", header: [{ text: "학교" }, { content: "comboFilter", filterConfig: { placeholder: "Type something", virtual: true }, }] },
-                        { width: 150, id: "C", header: [{ text: "지역" }, { content: "comboFilter", filterConfig: { placeholder: "Type something", virtual: true }, }] },
-                        { width: 150, id: "D", header: [{ text: "신청자" }, { content: "comboFilter", filterConfig: { placeholder: "Type something", virtual: true }, }] },
+                        { width: 150, id: "B", header: [{ text: "학교" }] },
+                        { width: 150, id: "C", header: [{ text: "지역" }] },
+                        { width: 150, id: "D", header: [{ text: "신청자" }] },
                         { width: 150, id: "E", header: [{ text: "연락처" }] },
                         { width: 150, id: "F", header: [{ text: "이메일" }] },
                         { width: 150, id: "G", header: [{ text: "1일차" }] },
@@ -467,7 +464,7 @@
                                 return text.replace(" ","</br>");
                             }
                         },
-                        
+
                         { width: 150, id: "L", header: [{ text: "신청인원" }] },
                         { width: 150, id: "M", header: [{ text: "참여인원" }] },
                         { width: 150, id: "N", header: [{ text: "간식 주소지" }] },
@@ -527,17 +524,27 @@
                         { width: 150, id: "BP", header: [{ text: "강사비 지급(오프라인)" }] },
                         { width: 150, id: "BQ", header: [{ text: "강사비 지급(사후)" }] },
 
-                        ],
-                        data: dataset,
-                        autoWidth: true,
-                        adjust: true,
-                        autoHeight: true,
-                        //rowHeight: 20,
-                        editable: true,
-                        resizable: true,
-                        leftSplit: 3,
-                        height: "100%",
+                    ]
+
+                    var  i = 0,iLen = headers.length,io;
+                    for(;i<iLen;++i){
+                        io = headers[ i ];
+                        io.header.push({ content: "comboFilter", filterConfig: { placeholder: "Type something", virtual: true }, })
                     }
+
+                    var grid = new dhx.Grid("null", 
+                        {   
+                            columns:headers,
+                            data: dataset,
+                            autoWidth: true,
+                            adjust: true,
+                            autoHeight: true,
+                            //rowHeight: 20,
+                            editable: true,
+                            resizable: true,
+                            leftSplit: 3,
+                            height: "100%",
+                        }
                 );
                 
                 window.grid.events.on("afterEditEnd", function(value,row,column){
