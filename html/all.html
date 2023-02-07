@@ -253,10 +253,12 @@
         window.CONFIG.APIServer = {};
         window.CONFIG.APIServer.HOST = "https://ec2-43-201-71-170.ap-northeast-2.compute.amazonaws.com";
         window.CONFIG.APIServer.PORT = 8888;
+        window.CONFIG.APIServer.URI = window.CONFIG.APIServer.HOST + ":" + window.CONFIG.APIServer.PORT;
+        
 
         window.CONFIG.URLS = {};
-        window.CONFIG.URLS.getListAllCamp = window.CONFIG.APIServer.HOST + ":" + window.CONFIG.APIServer.PORT + "/findAll";
-        window.CONFIG.URLS.updateData = window.CONFIG.APIServer.HOST + ":" + window.CONFIG.APIServer.PORT + "/update";
+        window.CONFIG.URLS.getListAllCamp = window.CONFIG.APIServer.URI + "/findAll";
+        window.CONFIG.URLS.updateData = window.CONFIG.APIServer.URI + "/update";
 
 
         var reqPost = function( url, data, cbFcuntion ){
