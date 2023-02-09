@@ -10,6 +10,19 @@
         <script>
         //data-callback="handleCredentialResponse"
         //2ZbXfBaf7RlbGxnZ2K
+        
+        
+        window.onload = function () {
+            google.accounts.id.initialize({
+            client_id: 'YOUR_GOOGLE_CLIENT_ID',
+            ux_mode:"redirect",
+            login_uri:"https://swcamp-api-server.run.goorm.app/oauthGoogle"
+            });
+            google.accounts.id.prompt();
+        };
+
+        
+        
         function handleCredentialResponse(response) {
             // decodeJwtResponse() is a custom function defined by you
             // to decode the credential response.
