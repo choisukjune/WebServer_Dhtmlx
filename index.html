@@ -17,9 +17,9 @@
               window.onload = function () {
                 google.accounts.id.initialize({
                   client_id: "647062115581-cgm4hhslu9f1odq2mb6mustdngabda8q.apps.googleusercontent.com",
-                  callback: handleCredentialResponse,
-                  //ux_mode: "redirect",
-                  //login_uri :"https://swcamp-api-server.run.goorm.app/oauthGoogle"
+                  //callback: handleCredentialResponse,
+                  ux_mode: "redirect",
+                  login_uri :"https://swcamp-api-server.run.goorm.app/oauthGoogle"
                 });
                 google.accounts.id.renderButton(
                   document.getElementById("buttonDiv"),
