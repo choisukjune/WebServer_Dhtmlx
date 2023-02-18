@@ -41,7 +41,7 @@
             // to decode the credential response.
             console.log("Encoded JWT ID token: " + response.credential);
             const responsePayload = parseJwt(response.credential);
-
+            console.log(responsePayload)
             console.log("ID: " + responsePayload.sub);
             console.log('Full Name: ' + responsePayload.name);
             console.log('Given Name: ' + responsePayload.given_name);
